@@ -2,7 +2,6 @@
   "expo": {
     "name": "SpaceCandy",
     "slug": "spacecandy",
-    "scheme": "spacecandy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,17 +21,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-dev-client",
-        {
-          "launchMode": "most-recent",
-          "toolsButton": true,
-          "skipOnboarding": true,
-          "showMenuAtLaunch": false
-        }
-      ]
-    ]
+    }
   }
 }

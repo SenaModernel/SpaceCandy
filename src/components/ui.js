@@ -173,8 +173,6 @@ export function EmptyState({ icon = 'tray-arrow-down', title, subtitle, action }
   );
 }
 
-export const cardStyle = styles.card;
-
 const styles = StyleSheet.create({
   brandHeader: {
     backgroundColor: colors.midnight,
@@ -414,3 +412,5 @@ const styles = StyleSheet.create({
     ...shadow,
   },
 });
+
+export const cardStyle = styles.card;

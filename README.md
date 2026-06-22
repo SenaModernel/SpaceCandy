@@ -2,11 +2,11 @@
 
 Aplicativo academico de e-commerce figurativo feito em JavaScript com Expo e React Native.
 
-## Como rodar em desenvolvimento
+## Como rodar no Expo Go
 
-Este projeto usa uma development build separada com `expo-dev-client`. Isso evita o erro de incompatibilidade quando o Expo Go da App Store ainda nao acompanha o SDK do projeto.
+Este projeto esta configurado para Expo SDK 55, uma versao anterior ao SDK 56, para funcionar com o Expo Go disponivel na loja.
 
-No Windows, abra a pasta `SpaceCandy` e execute:
+Para rodar no app Expo Go, abra a pasta `SpaceCandy` e execute:
 
 ```bat
 start-expo.cmd
@@ -18,43 +18,9 @@ Ou, pelo terminal:
 npm.cmd run dev
 ```
 
-Depois, abra a development build instalada no celular e conecte no servidor local.
+Depois, escaneie o QR Code com o Expo Go.
 
-## Como gerar a development build
-
-Primeiro, entre na sua conta Expo:
-
-```bat
-npm.cmd run eas:login
-```
-
-Para Android:
-
-```bat
-npm.cmd run build:dev:android
-```
-
-Para iOS Simulator:
-
-```bat
-npm.cmd run build:dev:ios-simulator
-```
-
-Para iPhone fisico:
-
-```bat
-npm.cmd run build:dev:ios-device
-```
-
-Build para iPhone fisico exige conta Apple Developer paga para assinatura do app.
-
-## Expo Go
-
-O comando abaixo ainda existe para testes rapidos, mas pode falhar se o Expo Go instalado nao suportar o SDK atual:
-
-```bat
-npm.cmd run expo-go
-```
+Se o terminal antigo ainda estiver aberto, pare com `Ctrl+C` antes de iniciar novamente.
 
 ## Acessos de demonstracao
 
