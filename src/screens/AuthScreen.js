@@ -38,16 +38,16 @@ export default function AuthScreen({ onLogin, onRegister }) {
       style={styles.root}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <BrandHeader subtitle="E-commerce academico figurativo" />
+      <BrandHeader subtitle="E-commerce acadêmico figurativo" />
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.heroBand}>
           <View style={styles.orbit}>
             <MaterialCommunityIcons name="candy-outline" size={42} color={colors.surface} />
           </View>
           <View style={styles.heroText}>
-            <Text style={styles.heroTitle}>Doces de outra galaxia</Text>
+            <Text style={styles.heroTitle}>Doces de outra galáxia</Text>
             <Text style={styles.heroSubtitle}>
-              Loja ficticia para demonstrar login, catalogo, compra e area administrativa.
+              Loja fictícia para demonstrar login, catálogo, compra e área administrativa.
             </Text>
           </View>
         </View>
@@ -121,7 +121,7 @@ export default function AuthScreen({ onLogin, onRegister }) {
         <View style={styles.notice}>
           <MaterialCommunityIcons name="school-outline" size={19} color={colors.mint} />
           <Text style={styles.noticeText}>
-            Produtos 100% ficticios para projeto academico.
+            Produtos 100% fictícios para projeto acadêmico.
           </Text>
         </View>
       </ScrollView>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     minWidth: 0,
   },
   heroTitle: {
-    color: colors.surface,
+    color: colors.ink,
     fontSize: 24,
     fontWeight: '900',
     letterSpacing: 0,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   switchTextActive: {
-    color: colors.surface,
+    color: colors.ink,
   },
   form: {
     gap: 13,

@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
-import { BrandHeader, Chip, IconButton, InputField, Metric, PrimaryButton, ScreenTitle, cardStyle } from '../components/ui';
+import { BrandHeader, Chip, IconButton, InputField, PrimaryButton, ScreenTitle, cardStyle } from '../components/ui';
 import { colors, radii } from '../theme';
 import { formatMoney } from '../utils/format';
 
@@ -28,8 +29,6 @@ export default function ProductsScreen({ user, products, cartCount, onAddToCart,
     });
   }, [products, query, category]);
 
-  const totalStock = products.reduce((sum, product) => sum + product.stock, 0);
-
   return (
     <View style={styles.root}>
       <BrandHeader
@@ -47,16 +46,10 @@ export default function ProductsScreen({ user, products, cartCount, onAddToCart,
 
       <ScrollView contentContainerStyle={styles.content}>
         <ScreenTitle
-          eyebrow="Area do cliente"
-          title="Lista de produtos"
-          subtitle="Catalogo de doces ficticios para simular a experiencia de compra."
+          eyebrow={`${products.length} itens  |  novos toda semana`}
+          title="A Loja"
+          subtitle="Doces que parecem proibidos, mas sao 100% açúcar, legais e deliciosos."
         />
-
-        <View style={styles.metricsRow}>
-          <Metric label="Produtos" value={products.length} tone="berry" />
-          <Metric label="Estoque" value={totalStock} tone="mint" />
-          <Metric label="No carrinho" value={cartCount} tone="sky" />
-        </View>
 
         <View style={styles.searchArea}>
           <InputField
@@ -76,7 +69,7 @@ export default function ProductsScreen({ user, products, cartCount, onAddToCart,
                 label={item}
                 active={category === item}
                 onPress={() => setCategory(item)}
-                color={item === 'Todos' ? colors.midnight : colors.violet}
+                color={item === 'Todos' ? colors.sun : colors.berry}
               />
             ))}
           </ScrollView>
@@ -94,38 +87,35 @@ export default function ProductsScreen({ user, products, cartCount, onAddToCart,
 
 function ProductCard({ product, onAddToCart }) {
   const disabled = product.stock === 0;
+  const gradient = product.gradient ?? [product.color, colors.violet];
 
   return (
     <View style={[cardStyle, styles.productCard]}>
-      <View style={[styles.visual, { backgroundColor: product.color }]}>
-        <MaterialCommunityIcons name={product.visual} size={38} color={colors.surface} />
-      </View>
-      <View style={styles.productInfo}>
-        <View style={styles.nameLine}>
-          <Text style={styles.productName} numberOfLines={1}>
-            {product.name}
+      <LinearGradient colors={gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.visual}>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText} numberOfLines={1}>
+            {product.badge}
           </Text>
-          <View style={styles.badge}>
-            <Text style={styles.badgeText} numberOfLines={1}>
-              {product.badge}
-            </Text>
-          </View>
         </View>
+        <MaterialCommunityIcons name={product.visual} size={62} color={colors.ink} />
+      </LinearGradient>
+      <View style={styles.productInfo}>
+        <Text style={styles.productName} numberOfLines={1}>
+          {product.name}
+        </Text>
         <Text style={styles.description} numberOfLines={2}>
           {product.description}
         </Text>
         <View style={styles.metaLine}>
           <Text style={styles.price}>{formatMoney(product.price)}</Text>
-          <Text style={[styles.stock, disabled && styles.stockEmpty]}>
-            {disabled ? 'Esgotado' : `${product.stock} un.`}
-          </Text>
+          <PrimaryButton
+            label={disabled ? 'Esgotado' : '+ Add'}
+            disabled={disabled}
+            variant="secondary"
+            onPress={() => onAddToCart(product.id)}
+            style={styles.addButton}
+          />
         </View>
-        <PrimaryButton
-          label={disabled ? 'Indisponivel' : 'Adicionar'}
-          icon="cart-plus"
-          disabled={disabled}
-          onPress={() => onAddToCart(product.id)}
-        />
       </View>
     </View>
   );
@@ -137,16 +127,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   content: {
-    paddingBottom: 24,
-  },
-  metricsRow: {
-    paddingHorizontal: 18,
-    flexDirection: 'row',
-    gap: 10,
+    paddingBottom: 28,
   },
   searchArea: {
     paddingHorizontal: 18,
-    paddingTop: 16,
+    paddingTop: 4,
     gap: 12,
   },
   chips: {
@@ -155,53 +140,49 @@ const styles = StyleSheet.create({
   },
   productList: {
     paddingHorizontal: 18,
-    paddingTop: 16,
-    gap: 12,
+    paddingTop: 20,
+    gap: 28,
   },
   productCard: {
-    padding: 12,
-    flexDirection: 'row',
-    gap: 12,
+    overflow: 'hidden',
+    borderColor: colors.line,
   },
   visual: {
-    width: 84,
-    minHeight: 124,
-    borderRadius: radii.md,
+    height: 210,
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative',
   },
   productInfo: {
-    flex: 1,
-    minWidth: 0,
-    gap: 8,
-  },
-  nameLine: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    padding: 18,
+    gap: 12,
   },
   productName: {
-    flex: 1,
     color: colors.ink,
-    fontSize: 18,
+    fontSize: 23,
     fontWeight: '900',
   },
   badge: {
-    maxWidth: 96,
-    borderRadius: 6,
-    backgroundColor: colors.softSun,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    maxWidth: 140,
+    borderRadius: radii.sm,
+    backgroundColor: colors.black,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
   badgeText: {
     color: colors.ink,
-    fontSize: 11,
+    fontFamily: 'Courier New',
+    fontSize: 12,
     fontWeight: '900',
+    letterSpacing: 2,
   },
   description: {
     color: colors.muted,
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 23,
   },
   metaLine: {
     flexDirection: 'row',
@@ -210,16 +191,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   price: {
-    color: colors.berry,
-    fontSize: 18,
+    color: colors.sun,
+    fontFamily: 'Courier New',
+    fontSize: 19,
     fontWeight: '900',
   },
-  stock: {
-    color: colors.success,
-    fontSize: 12,
-    fontWeight: '900',
-  },
-  stockEmpty: {
-    color: colors.danger,
+  addButton: {
+    minWidth: 116,
+    minHeight: 48,
+    backgroundColor: colors.surface,
   },
 });

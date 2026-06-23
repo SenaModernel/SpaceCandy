@@ -1,19 +1,32 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { colors, radii, shadow } from '../theme';
 
+const brandLogo = require('../../assets/space-candy-logo.jpeg');
+
 export function BrandHeader({ title = 'SpaceCandy', subtitle, right }) {
   return (
-    <View style={styles.brandHeader}>
-      <View style={styles.brandMark}>
-        <MaterialCommunityIcons name="rocket-launch-outline" size={24} color={colors.surface} />
+    <View style={styles.headerShell}>
+      <CandyStripe />
+      <View style={styles.brandHeader}>
+        <Image source={brandLogo} style={styles.logoImage} resizeMode="contain" />
+        <View style={styles.headerSpacer} />
+        {right}
       </View>
-      <View style={styles.brandTextWrap}>
-        <Text style={styles.brandTitle}>{title}</Text>
-        {!!subtitle && <Text style={styles.brandSubtitle}>{subtitle}</Text>}
-      </View>
-      {right}
+      {!!subtitle && <Text style={styles.brandSubtitle}>{subtitle}</Text>}
+    </View>
+  );
+}
+
+export function CandyStripe() {
+  return (
+    <View style={styles.stripe}>
+      {[colors.sun, colors.black, colors.ink, colors.berry, colors.black, colors.violet, colors.mint].map(
+        (color, index) => (
+          <View key={`${color}-${index}`} style={[styles.stripeBlock, { backgroundColor: color }]} />
+        )
+      )}
     </View>
   );
 }
@@ -50,7 +63,7 @@ export function PrimaryButton({
     variant === 'secondary' && styles.buttonTextSecondary,
     variant === 'ghost' && styles.buttonTextGhost,
   ];
-  const iconColor = variant === 'secondary' || variant === 'ghost' ? colors.ink : colors.surface;
+  const iconColor = variant === 'primary' ? colors.black : colors.ink;
 
   return (
     <Pressable
@@ -174,37 +187,44 @@ export function EmptyState({ icon = 'tray-arrow-down', title, subtitle, action }
 }
 
 const styles = StyleSheet.create({
-  brandHeader: {
+  headerShell: {
     backgroundColor: colors.midnight,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  stripe: {
+    height: 8,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  stripeBlock: {
+    flex: 1,
+  },
+  brandHeader: {
     paddingHorizontal: 18,
-    paddingTop: 18,
-    paddingBottom: 16,
+    paddingTop: 20,
+    paddingBottom: 14,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
   },
-  brandMark: {
-    width: 44,
-    height: 44,
-    borderRadius: radii.md,
-    backgroundColor: colors.berry,
-    alignItems: 'center',
-    justifyContent: 'center',
+  logoImage: {
+    width: 184,
+    height: 74,
+    marginLeft: -10,
   },
-  brandTextWrap: {
+  headerSpacer: {
     flex: 1,
-    minWidth: 0,
-  },
-  brandTitle: {
-    color: colors.surface,
-    fontSize: 26,
-    fontWeight: '900',
-    letterSpacing: 0,
   },
   brandSubtitle: {
-    color: '#B8C1D2',
-    fontSize: 13,
-    marginTop: 2,
+    color: colors.muted,
+    fontFamily: 'Courier New',
+    fontSize: 12,
+    letterSpacing: 1,
+    paddingHorizontal: 18,
+    paddingBottom: 12,
+    textTransform: 'uppercase',
   },
   titleBlock: {
     paddingHorizontal: 18,
@@ -213,27 +233,30 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     color: colors.berry,
-    fontSize: 12,
-    fontWeight: '800',
+    fontFamily: 'Courier New',
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 5,
     textTransform: 'uppercase',
-    marginBottom: 4,
+    marginBottom: 10,
   },
   screenTitle: {
     color: colors.ink,
-    fontSize: 26,
+    fontSize: 38,
     fontWeight: '900',
     letterSpacing: 0,
+    textTransform: 'uppercase',
   },
   screenSubtitle: {
     color: colors.muted,
-    fontSize: 14,
-    lineHeight: 20,
-    marginTop: 6,
+    fontSize: 17,
+    lineHeight: 26,
+    marginTop: 12,
   },
   button: {
     minHeight: 46,
-    borderRadius: radii.md,
-    backgroundColor: colors.violet,
+    borderRadius: radii.sm,
+    backgroundColor: colors.sun,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -255,9 +278,12 @@ const styles = StyleSheet.create({
     opacity: 0.45,
   },
   buttonText: {
-    color: colors.surface,
+    color: colors.black,
+    fontFamily: 'Courier New',
     fontSize: 14,
     fontWeight: '800',
+    letterSpacing: 2,
+    textTransform: 'uppercase',
   },
   buttonTextSecondary: {
     color: colors.ink,
@@ -271,10 +297,12 @@ const styles = StyleSheet.create({
   iconButton: {
     width: 44,
     height: 44,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+    borderWidth: 1,
+    borderColor: colors.line,
   },
   countBadge: {
     position: 'absolute',
@@ -298,12 +326,15 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     color: colors.ink,
+    fontFamily: 'Courier New',
     fontSize: 13,
     fontWeight: '800',
+    letterSpacing: 2,
+    textTransform: 'uppercase',
   },
   inputShell: {
     minHeight: 48,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     borderWidth: 1,
     borderColor: colors.line,
     backgroundColor: colors.surface,
@@ -333,7 +364,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     minHeight: 36,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     borderWidth: 1,
     borderColor: colors.line,
     backgroundColor: colors.surface,
@@ -343,17 +374,19 @@ const styles = StyleSheet.create({
   },
   chipText: {
     color: colors.ink,
+    fontFamily: 'Courier New',
     fontSize: 13,
     fontWeight: '800',
+    letterSpacing: 2,
   },
   chipTextActive: {
-    color: colors.surface,
+    color: colors.black,
   },
   metric: {
     flex: 1,
     minWidth: 96,
     backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     borderWidth: 1,
     borderColor: colors.line,
     padding: 12,
@@ -366,17 +399,20 @@ const styles = StyleSheet.create({
   },
   metricLabel: {
     color: colors.muted,
+    fontFamily: 'Courier New',
     fontSize: 12,
     fontWeight: '700',
+    letterSpacing: 1,
   },
   metricValue: {
     color: colors.ink,
+    fontFamily: 'Courier New',
     fontSize: 18,
     fontWeight: '900',
   },
   emptyState: {
     backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     borderWidth: 1,
     borderColor: colors.line,
     padding: 22,
@@ -388,7 +424,7 @@ const styles = StyleSheet.create({
     width: 58,
     height: 58,
     borderRadius: radii.md,
-    backgroundColor: colors.softViolet,
+    backgroundColor: colors.softBerry,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -406,7 +442,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     borderWidth: 1,
     borderColor: colors.line,
     ...shadow,

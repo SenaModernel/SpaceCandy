@@ -17,7 +17,7 @@ export default function BottomNav({ tabs, activeKey, onChange, cartCount, iconRe
             style={({ pressed }) => [styles.item, active && styles.itemActive, pressed && styles.pressed]}
           >
             <View style={styles.iconSlot}>
-              {iconRenderer(tab.icon, 23, active ? colors.surface : colors.muted)}
+              {iconRenderer(tab.icon, 23, active ? colors.black : colors.muted)}
               {count > 0 && (
                 <View style={styles.badge}>
                   <Text style={styles.badgeText}>{count}</Text>
@@ -41,7 +41,7 @@ export default function BottomNav({ tabs, activeKey, onChange, cartCount, iconRe
 const styles = StyleSheet.create({
   wrap: {
     minHeight: 72,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.midnight,
     borderTopWidth: 1,
     borderTopColor: colors.line,
     paddingHorizontal: 10,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   itemActive: {
-    backgroundColor: colors.midnight,
+    backgroundColor: colors.sun,
   },
   iconSlot: {
     position: 'relative',
@@ -68,11 +68,13 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.muted,
+    fontFamily: 'Courier New',
     fontSize: 11,
     fontWeight: '800',
+    letterSpacing: 1,
   },
   labelActive: {
-    color: colors.surface,
+    color: colors.black,
   },
   badge: {
     position: 'absolute',
